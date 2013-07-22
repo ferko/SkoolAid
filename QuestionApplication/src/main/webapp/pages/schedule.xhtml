@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Schedule</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<h:form>
+			<p:schedule value="#{EventController.eventModel}" draggable="false"
+				resizable="false" widgetVar="myschedule">
+				<p:ajax event="eventSelect"
+					listener="#{EventController.onEventSelect}" update="eventDetails"
+					oncomplete="eventDialog.show()" process="@this" />
+			</p:schedule>
+			<p:dialog widgetVar="eventDialog" header="Event Details"
+				showEffect="clip" hideEffect="clip" width="600">
+				<h:panelGrid id="eventDetails">
+					<h:panelGroup>
+						<h:outputText value="Class: " styleClass="incorrect" />
+						<h:outputText value="#{EventController.event.course.courseName}"
+							styleClass="correct" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:separator styleClass="seperator" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputLabel value="Time: " styleClass="incorrect" />
+						<h:outputText value="#{EventController.event.time}"
+							styleClass="correct" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:separator styleClass="seperator" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputLabel value="Details: " styleClass="incorrect" />
+						<h:outputText value="#{EventController.event.eventTitle}"
+							styleClass="correct" />
+					</h:panelGroup>
+					<br />
+					<h:commandButton value="Hide" styleClass="loginButton">
+						<p:ajax oncomplete="eventDialog.hide()" />
+					</h:commandButton>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

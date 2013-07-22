@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<f:event listener="#{Quiz.startConversation}" type="preRenderView" />
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Quiz</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<h:form>
+			<h:panelGrid columns="2" cellspacing="20">
+				<h:outputLabel value="Course Select:" for="course"
+					styleClass="fields" />
+				<p:selectOneMenu id="course" value="#{Quiz.course}" effect="fade"
+					converter="#{CourseConverter}" style="width: 500px;"
+					required="true" requiredMessage="Course needs to be selected"
+					label="Course">
+					<f:selectItem itemLabel="--SELECT COURSE--" itemValue="" />
+					<f:selectItems value="#{Quiz.courses}" var="course"
+						itemLabel="#{course.courseName}" itemValue="#{course}" />
+					<f:ajax render="quiz_chapter" immediate="true" />
+				</p:selectOneMenu>
+				<h:outputLabel value="Chapter Select:" for="quiz_chapter"
+					styleClass="fields" />
+				<p:selectOneMenu id="quiz_chapter" value="#{Quiz.chapter}"
+					effect="fade" converter="#{ChapterConverter}" style="width: 500px;"
+					required="true" requiredMessage="Chapter needs to be selected"
+					label="Chapter">
+					<f:selectItem itemLabel="--SELECT CHAPTER--" itemValue="" />
+					<f:selectItems value="#{Quiz.course.chapters}" var="chapter"
+						itemLabel="#{chapter.chapter}" itemValue="#{chapter}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:commandButton action="#{Quiz.initQuestion}" value="Take Quiz"
+				styleClass="loginButton" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

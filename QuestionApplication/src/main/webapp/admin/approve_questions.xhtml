@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Approve Questions</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<div>
+			<h:form>
+				<ui:param name="zero" value="#{ApproveQuestion.zero}" />
+				<ui:repeat var="question" value="#{ApproveQuestion.multipleChoice}"
+					varStatus="status">
+					<ui:param name="index" value="#{status.index}" />
+					<div class="question_box">
+						<br />
+						<h:outputText value="Course: " styleClass="incorrect" />
+						<h:outputText value="#{question.course.courseName}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Chapter: " styleClass="incorrect" />
+						<h:outputText value="#{question.chapter.chapter}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Question: " styleClass="incorrect" />
+						<h:outputText value="#{question.question}" styleClass="fields"
+							rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+						<p:inputText value="#{question.question}"
+							rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+							required="true" requiredMessage="required" />
+						<hr />
+						<div>
+							<h:panelGrid>
+								<ui:param name="opt1" value="#{question.options[0]}" />
+								<h:outputText value="#{question.options[0].option}"
+									styleClass="#{ApproveQuestion.getStyleClass(opt1)}"
+									rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+								<p:inputText value="#{question.options[0].option}"
+									rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+									disabled="#{!ApproveQuestion.editMultipleChoice[index]}"
+									required="true" requiredMessage="required" />
+								<ui:param name="opt2" value="#{question.options[1]}" />
+								<h:outputText value="#{question.options[1].option}"
+									styleClass="#{ApproveQuestion.getStyleClass(opt2)}"
+									rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+								<p:inputText value="#{question.options[1].option}"
+									rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+									disabled="#{!ApproveQuestion.editMultipleChoice[index]}"
+									required="true" requiredMessage="required" />
+								<ui:param name="opt3" value="#{question.options[2]}" />
+								<h:outputText value="#{question.options[2].option}"
+									styleClass="#{ApproveQuestion.getStyleClass(opt3)}"
+									rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+								<p:inputText value="#{question.options[2].option}"
+									rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+									disabled="#{!ApproveQuestion.editMultipleChoice[index]}"
+									required="true" requiredMessage="required" />
+								<ui:param name="opt4" value="#{question.options[3]}" />
+								<h:outputText value="#{question.options[3].option}"
+									styleClass="#{ApproveQuestion.getStyleClass(opt4)}"
+									rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+								<p:inputText value="#{question.options[3].option}"
+									rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+									required="true" requiredMessage="required" />
+								<h:panelGroup>
+									<h:commandButton class="loginButton"
+										rendered="#{!ApproveQuestion.editing}" value="Edit"
+										action="#{ApproveQuestion.editingMultipleChoice(index)}">
+										<f:ajax execute="@form" render="@form" immediate="true" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+										value="Save"
+										action="#{ApproveQuestion.saveMultipleChoice(index)}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editMultipleChoice[index]}"
+										value="Cancel"
+										action="#{ApproveQuestion.saveMultipleChoice(index)}"
+										immediate="true">
+										<f:ajax render="@form" immediate="true" />
+									</h:commandButton>
+								</h:panelGroup>
+							</h:panelGrid>
+						</div>
+						<br />
+						<h:outputText value="Approved: " styleClass="fields"
+							rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+						<p:selectBooleanCheckbox value="#{question.approved}"
+							disabled="#{ApproveQuestion.editing}"
+							rendered="#{!ApproveQuestion.editMultipleChoice[index]}" />
+					</div>
+				</ui:repeat>
+				<ui:repeat var="shortAnswer" value="#{ApproveQuestion.shortAnswers}"
+					varStatus="shortindex">
+					<ui:param name="index" value="#{shortindex.index}" />
+					<div class="question_box">
+						<br />
+						<h:outputText value="Course: " styleClass="incorrect" />
+						<h:outputText value="#{shortAnswer.course.courseName}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Chapter: " styleClass="incorrect" />
+						<h:outputText value="#{shortAnswer.chapter.chapter}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Question: " styleClass="incorrect" />
+						<h:outputText value="#{shortAnswer.question}" styleClass="fields"
+							rendered="#{!ApproveQuestion.editShortAnswer[index]}" />
+						<p:inputText value="#{shortAnswer.question}"
+							rendered="#{ApproveQuestion.editShortAnswer[index]}"
+							required="true" requiredMessage="required" />
+						<hr />
+						<div>
+							<h:panelGrid>
+								<h:outputText value="#{shortAnswer.answer}" styleClass="correct"
+									rendered="#{!ApproveQuestion.editShortAnswer[index]}" />
+								<h:inputTextarea value="#{shortAnswer.answer}"
+									styleClass="question_area"
+									rendered="#{ApproveQuestion.editShortAnswer[index]}" />
+								<h:panelGroup>
+									<h:commandButton class="loginButton"
+										rendered="#{!ApproveQuestion.editing}" value="Edit"
+										action="#{ApproveQuestion.editingShortAnswer(index)}">
+										<f:ajax execute="@form" render="@form" immediate="true" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editShortAnswer[index]}"
+										value="Save"
+										action="#{ApproveQuestion.saveShortAnswer(index)}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editShortAnswer[index]}"
+										value="Cancel"
+										action="#{ApproveQuestion.saveShortAnswer(index)}"
+										immediate="true">
+										<f:ajax render="@form" immediate="true" />
+									</h:commandButton>
+								</h:panelGroup>
+							</h:panelGrid>
+						</div>
+						<br />
+						<h:outputText value="Approved: " styleClass="fields"
+							rendered="#{!ApproveQuestion.editShortAnswer[index]}" />
+						<p:selectBooleanCheckbox value="#{shortAnswer.approved}"
+							disabled="#{ApproveQuestion.editing}"
+							rendered="#{!ApproveQuestion.editShortAnswer[index]}" />
+					</div>
+				</ui:repeat>
+				<ui:repeat var="trueFalse" value="#{ApproveQuestion.trueFalse}"
+					varStatus="trueindex">
+					<ui:param name="index" value="#{trueindex.index}" />
+					<div class="question_box">
+						<br />
+						<h:outputText value="Course: " styleClass="incorrect" />
+						<h:outputText value="#{trueFalse.course.courseName}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Chapter: " styleClass="incorrect" />
+						<h:outputText value="#{trueFalse.chapter.chapter}"
+							styleClass="fields" />
+						<br />
+						<h:outputText value="Question: " styleClass="incorrect" />
+						<h:outputText value="#{trueFalse.question}" styleClass="fields"
+							rendered="#{!ApproveQuestion.editTrueFalse[index]}" />
+						<p:inputText value="#{trueFalse.question}"
+							rendered="#{ApproveQuestion.editTrueFalse[index]}"
+							required="true" requiredMessage="required" />
+						<hr />
+						<div>
+							<h:panelGrid>
+								<h:outputText value="#{trueFalse.answer}" styleClass="correct"
+									rendered="#{!ApproveQuestion.editTrueFalse[index]}" />
+								<p:selectBooleanButton value="#{trueFalse.answer}"
+									onLabel="True" styleClass="loginButton" offLabel="False"
+									onIcon="ui-icon-check" offIcon="ui-icon-close"
+									rendered="#{ApproveQuestion.editTrueFalse[index]}" />
+								<h:panelGroup>
+									<h:commandButton class="loginButton"
+										rendered="#{!ApproveQuestion.editing}" value="Edit"
+										action="#{ApproveQuestion.editingTrueFalse(index)}">
+										<f:ajax execute="@form" render="@form" immediate="true" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editTrueFalse[index]}"
+										value="Save" action="#{ApproveQuestion.saveTrueFalse(index)}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+									<h:commandButton class="loginButton"
+										rendered="#{ApproveQuestion.editTrueFalse[index]}"
+										value="Cancel"
+										action="#{ApproveQuestion.saveTrueFalse(index)}"
+										immediate="true">
+										<f:ajax render="@form" immediate="true" />
+									</h:commandButton>
+								</h:panelGroup>
+							</h:panelGrid>
+						</div>
+						<br />
+						<h:outputText value="Approved: " styleClass="fields"
+							rendered="#{!ApproveQuestion.editTrueFalse[index]}" />
+						<p:selectBooleanCheckbox value="#{trueFalse.approved}"
+							disabled="#{ApproveQuestion.editing}"
+							rendered="#{!ApproveQuestion.editTrueFalse[index]}" />
+					</div>
+				</ui:repeat>
+				<br />
+				<h:commandButton value="Approve Questions"
+					action="#{ApproveQuestion.approve}" styleClass="loginButton"
+					rendered="#{!ApproveQuestion.editing}" style="width:150px;" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

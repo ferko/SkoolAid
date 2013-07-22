@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    id="WebApp_ID"
+    version="3.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" >
+
+    <display-name>
+CrudJSF
+    </display-name>
+
+    <welcome-file-list>
+        <welcome-file>
+			pages/index.xhtml
+        </welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>
+			Faces Servlet
+        </servlet-name>
+        <servlet-class>
+			javax.faces.webapp.FacesServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>*.jsf</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Resource</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Resource</web-resource-name>
+            <url-pattern>/pages/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>USER</role-name>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-role>
+    	<description>Protected access</description>
+    	<role-name>USER</role-name>
+	</security-role>
+	<security-role>
+    	<description>Protected access</description>
+    	<role-name>ADMIN</role-name>
+	</security-role>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/index.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>CaptchaKeyValue</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>CaptchaKeyValue</param-value>
+    </context-param>
+	<error-page>
+            <error-code>404</error-code>
+            <location>/index.xhtml</location>
+  </error-page>
+  <error-page>
+            <error-code>403</error-code>
+            <location>/index.xhtml</location>
+  </error-page>
+</web-app>

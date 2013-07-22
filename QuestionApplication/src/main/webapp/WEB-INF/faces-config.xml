@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+   <!-- This descriptor activates the JSF 2.0 Servlet -->
+
+   <!-- Write your navigation rules here. You are encouraged to use CDI for 
+      creating @Named managed beans. -->
+
+    <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/pages/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+        <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>schedule</from-outcome>
+            <to-view-id>/pages/schedule.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>forgot</from-outcome>
+            <to-view-id>/forgot_password.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>approve</from-outcome>
+            <to-view-id>/admin/approve_questions.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+	<navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>question</from-outcome>
+            <to-view-id>/pages/create_questions.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>quiz</from-outcome>
+            <to-view-id>/pages/quiz.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+	<navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>result</from-outcome>
+            <to-view-id>/pages/result.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+	<navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>takequiz</from-outcome>
+            <to-view-id>/pages/take_quiz.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+	<navigation-rule>
+        <description>Case for successful login</description>
+        <navigation-case>
+            <from-outcome>create_account</from-outcome>
+            <to-view-id>/create_user.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>	    
+    
+</faces-config>

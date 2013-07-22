@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>SkoolAid.ca</title>
+	<h:outputStylesheet library="css" name="dash_board.css" />
+	<h:outputStylesheet library="css" name="login_button.css" />
+</h:head>
+<ui:include src="/pages/dash_board.xhtml" />
+<h:body styleClass="mainBody">
+	<div id="main_container">
+		<h:graphicImage url="/resources/gfx/wpdd70fee5_06.png" style="position:absolute;left:400px;top:0px;" />
+		<ui:insert name="dash_button"/>
+		<div id="header"></div>
+		<div class="menu">
+			<ui:insert name="menu">
+				Main content to be inserted
+			</ui:insert>
+		</div>
+		<div class="center_content">
+			<ui:insert name="main_content">
+				Main content to be inserted
+			</ui:insert>
+		</div>
+	</div>
+</h:body>
+</html>

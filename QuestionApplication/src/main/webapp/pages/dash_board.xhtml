@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:notificationBar position="top" effect="slide" widgetVar="bar"
+	styleClass="dashBox">
+	<div>
+		<h:form>
+			<h:commandButton value="Dash Board" onclick="bar.hide()"
+				type="button" styleClass="dashBoardHide" style="font-size:16px;" />
+			<h:graphicImage url="/resources/gfx/wpdd70fee5_06.png"
+				style="position:absolute;right:30px;bottom:20px;" />
+			<h:panelGrid columns="4"
+				style="position:absolute;left:30px;width:800px;text-align:left;">
+				<h:link value="Home" outcome="welcome" style="color: #FFFFFF;" />
+				<h:link value="Take Quiz" outcome="quiz" style="color: #FFFFFF;" />
+				<h:commandLink value="Logout" action="welcome"
+					style="color: #FFFFFF;" actionListener="#{UserController.logOut}" />
+				<h:panelGroup>
+				<h:link value="Approve Questions" rendered="#{isAdmin}"
+					disabled="#{!isAdmin}" outcome="approve" style="color: #33ed1f;" />
+				</h:panelGroup>
+				<h:link value="Schedule" outcome="schedule" style="color: #FFFFFF;" />
+				<h:link value="Add Questions" outcome="question"
+					style="color: #FFFFFF;" />
+				<h:link value="Change Settings" outcome="settings"
+					style="color: #FFFFFF;" />
+					<h:panelGroup />
+				<h:link value="Previous Stats" outcome="stats"
+					style="color: #FFFFFF;" />
+				<h:link value="Forums" outcome="forum" style="color: #FFFFFF;" />
+				<h:link value="Contacts" outcome="contact" style="color: #FFFFFF;" />
+			</h:panelGrid>
+		</h:form>
+	</div>
+</p:notificationBar>
+
+<h:commandButton value="Dash Board" onclick="bar.show()" type="button"
+	styleClass="dashBoard" onfocus="" />
+</html>

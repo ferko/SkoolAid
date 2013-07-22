@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Create
+				Question</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<div>
+			<h:form>
+				<p:growl id="growl" showDetail="true" sticky="true" />
+				<h:panelGrid columns="2" cellspacing="20">
+					<h:outputLabel value="Course Select:" for="course"
+						styleClass="fields" />
+					<p:selectOneMenu id="course" disabled="#{CreateQuestion.added}"
+						value="#{CreateQuestion.newQuestion.course}" effect="fade"
+						converter="#{CourseConverter}" style="width: 500px;"
+						required="true" requiredMessage="Course needs to be selected"
+						label="Course">
+						<f:selectItem itemLabel="--SELECT COURSE--" itemValue="" />
+						<f:selectItems value="#{CreateQuestion.courses}" var="course"
+							itemLabel="#{course.courseName}" itemValue="#{course}" />
+						<f:ajax render="chapter" immediate="true" />
+					</p:selectOneMenu>
+					<h:outputLabel value="Chapter Select:" for="chapter"
+						styleClass="fields" />
+					<p:selectOneMenu id="chapter" disabled="#{CreateQuestion.added}"
+						value="#{CreateQuestion.newQuestion.chapter}" effect="fade"
+						converter="#{ChapterConverter}" style="width: 500px;"
+						rendered="true" requiredMessage="Chapter needs to be selected"
+						label="Chapter">
+						<f:selectItem itemLabel="--SELECT CHAPTER--" itemValue="" />
+						<f:selectItems
+							value="#{CreateQuestion.newQuestion.course.chapters}"
+							var="chapter" itemLabel="#{chapter.chapter}"
+							itemValue="#{chapter}" />
+						<f:ajax immediate="true" />
+					</p:selectOneMenu>
+					<h:outputText value="Type of Question:" styleClass="fields" />
+				</h:panelGrid>
+				<p:selectOneRadio id="type" value="#{CreateQuestion.qtype}"
+					layout="custom" disabled="#{CreateQuestion.added}">
+					<f:selectItem itemLabel="Option 1" itemValue="0" />
+					<f:selectItem itemLabel="Option 2" itemValue="1" />
+					<f:selectItem itemLabel="Option 3" itemValue="2" />
+					<f:selectItem itemLabel="Option 4" itemValue="3" />
+					<f:ajax execute="@this" render="parts" immediate="true" />
+				</p:selectOneRadio>
+				<h:panelGrid columns="2"
+					style="width:800px;padding-right:20px;padding-left:100px;">
+					<h:panelGroup>
+						<p:radioButton id="type1" for="type" itemIndex="0" />
+						<h:outputLabel for="type1" value="Multiple Choice"
+							styleClass="fields" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:radioButton id="type2" for="type" itemIndex="1" />
+						<h:outputLabel for="type2" value="True/False" styleClass="fields" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:radioButton id="type3" for="type" itemIndex="2" />
+						<h:outputLabel for="type3" value="Short Answer"
+							styleClass="fields" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:radioButton id="type4" for="type" itemIndex="3" disabled="true" />
+						<h:outputLabel for="type4" value="Coding" styleClass="fields" />
+					</h:panelGroup>
+				</h:panelGrid>
+				<h:panelGroup id="parts" layout="block">
+					<h:panelGrid columns="2" cellspacing="20">
+						<h:outputLabel value="Question:" for="question"
+							styleClass="fields" />
+						<h:inputTextarea id="question" value="#{newQuestion.question}"
+							styleClass="question_area" disabled="#{CreateQuestion.added}"
+							label="Question" required="true"
+							requiredMessage="Question needs to be filled in"
+							validatorMessage="Max size is 400 characters">
+							<f:validateLength maximum="400" />
+						</h:inputTextarea>
+						<h:outputLabel value="Answer:" for="answer" styleClass="fields"
+							rendered="#{CreateQuestion.type[2]}" />
+						<h:inputTextarea id="answer"
+							value="#{CreateQuestion.newShortAnswer.answer}"
+							styleClass="question_area" disabled="#{CreateQuestion.added}"
+							rendered="#{CreateQuestion.type[2]}" required="true"
+							requiredMessage="Answer is required for Short Answer questions"
+							label="Short Answer"
+							validatorMessage="Max size is 400 characters">
+							<f:validateLength maximum="400" />
+						</h:inputTextarea>
+						<h:outputText value="Options: " styleClass="fields"
+							rendered="#{CreateQuestion.type[0]}" />
+						<h:outputText
+							value="Fill in the options and select the one that&lt;br /&gt;should be the answer"
+							escape="false" styleClass="fields"
+							rendered="#{CreateQuestion.type[0]}" />
+						<h:outputText value="Answer: " styleClass="fields"
+							rendered="#{CreateQuestion.type[1]}" />
+						<p:selectBooleanButton
+							value="#{CreateQuestion.newTrueFalse.answer}" onLabel="True"
+							styleClass="loginButton" offLabel="False" onIcon="ui-icon-check"
+							offIcon="ui-icon-close" rendered="#{CreateQuestion.type[1]}" />
+
+					</h:panelGrid>
+
+					<p:selectOneRadio id="customRadio"
+						disabled="#{CreateQuestion.added}"
+						value="#{CreateQuestion.assignAnswer}" layout="custom"
+						rendered="#{CreateQuestion.type[0]}" required="true"
+						requiredMessage="One option must be selected as the answer"
+						label="Option Selector">
+						<f:selectItem itemLabel="Option 1" itemValue="1" />
+						<f:selectItem itemLabel="Option 2" itemValue="2" />
+						<f:selectItem itemLabel="Option 3" itemValue="3" />
+						<f:selectItem itemLabel="Option 4" itemValue="4" />
+					</p:selectOneRadio>
+					<h:panelGrid columns="2" cellspacing="20" style="width:800px"
+						rendered="#{CreateQuestion.type[0]}">
+						<h:panelGroup style="position: relative; left:10%;">
+							<p:radioButton id="opt1" for="customRadio" itemIndex="0"
+								disabled="#{CreateQuestion.added}" />
+							<h:outputLabel for="opt1" value=" Option 1: " styleClass="fields" />
+							<p:inputText value="#{newQuestion.options[0].option}"
+								disabled="#{CreateQuestion.added}" required="true"
+								requiredMessage="Option can be left empty" label="Option 1"
+								validatorMessage="Max size is 250 characters">
+								<f:validateLength maximum="250" />
+							</p:inputText>
+						</h:panelGroup>
+						<h:panelGroup style="position: relative; left:10%;">
+							<p:radioButton id="opt2" for="customRadio" itemIndex="1"
+								disabled="#{CreateQuestion.added}" />
+							<h:outputLabel for="opt2" value=" Option 2: " styleClass="fields" />
+							<p:inputText value="#{newQuestion.options[1].option}"
+								disabled="#{CreateQuestion.added}" required="true"
+								requiredMessage="Option can be left empty" label="Option 2"
+								validatorMessage="Max size is 250 characters">
+								<f:validateLength maximum="250" />
+							</p:inputText>
+						</h:panelGroup>
+						<h:panelGroup style="position: relative; left:10%;">
+							<p:radioButton id="opt3" for="customRadio" itemIndex="2"
+								disabled="#{CreateQuestion.added}" />
+							<h:outputLabel for="opt3" value=" Option 3: " styleClass="fields" />
+							<p:inputText value="#{newQuestion.options[2].option}"
+								disabled="#{CreateQuestion.added}" required="true"
+								requiredMessage="Option can be left empty" label="Option 3"
+								validatorMessage="Max size is 250 characters">
+								<f:validateLength maximum="250" />
+							</p:inputText>
+						</h:panelGroup>
+						<h:panelGroup style="position: relative; left:10%;">
+							<p:radioButton id="opt4" for="customRadio" itemIndex="3"
+								disabled="#{CreateQuestion.added}" />
+							<h:outputLabel for="opt4" value=" Option 4: " styleClass="fields" />
+							<p:inputText value="#{newQuestion.options[3].option}"
+								disabled="#{CreateQuestion.added}" required="true"
+								requiredMessage="Option can be left empty" label="Option 4"
+								validatorMessage="Max size is 250 characters">
+								<f:validateLength maximum="250" />
+							</p:inputText>
+						</h:panelGroup>
+					</h:panelGrid>
+				</h:panelGroup>
+				<br />
+				<h:commandButton id="submit"
+					action="#{CreateQuestion.registerQuestion}" value="Submit"
+					styleClass="loginButton" rendered="#{!CreateQuestion.added}" />
+				<h:button id="add" outcome="question" value="Add Another"
+					styleClass="loginButton" rendered="#{CreateQuestion.added}" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

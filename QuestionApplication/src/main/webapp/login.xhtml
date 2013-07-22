@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>SkoolAid.ca</title>
+	<h:outputStylesheet library="css" name="login_button.css" />
+</h:head>
+<h:body>
+	<f:event listener="#{UserController.logedIn}" type="preRenderView" />
+	<div
+		style="background-color: transparent; margin-left: auto; margin-right: auto; position: relative; width: 960px;">
+		<h:graphicImage url="/resources/gfx/wpd6a76a0b_05_06.jpg"
+			style="position:absolute;left:638px;top:91px;" />
+		<h:graphicImage url="/resources/gfx/wpb96eb716_06.png"
+			style="position:absolute;left:300px;top:92px;" />
+		<h:form>
+			<div style="position: absolute; left: 300px; top: 200px;">
+				<h:panelGrid columns="2">
+					<h:graphicImage url="/resources/gfx/wp87bee3da_06.png" />
+					<h:inputText value="#{UserController.currentUser.userName}"
+						required="true" style="width: 150px;"
+						validatorMessage="Max size is 40 characters" label="UserName"
+						requiredMessage="UserName cannot be empty">
+						<f:validateLength maximum="40" />
+					</h:inputText>
+					<h:graphicImage url="/resources/gfx/wp68b9c514_06.png" />
+					<h:inputSecret value="#{UserController.currentUser.password}"
+						required="true" style="width: 150px;" label="Password"
+						requiredMessage="Password cannot be empty"
+						validatorMessage="Max size is 40 characters">
+						<f:validateLength maximum="40" />
+					</h:inputSecret>
+				</h:panelGrid>
+				<p:captcha label="Captcha" theme="white" secure="true" />
+				<h:panelGrid columns="2" style="width:400px;">
+					<h:commandButton value="Login" action="#{UserController.logIn}"
+						styleClass="loginButton" />
+					<h:commandLink value="Create New Account" action="create_account"
+						immediate="true" />
+					<h:panelGroup />
+					<h:commandLink value="Recover Password" action="forgot"
+						immediate="true" />
+				</h:panelGrid>
+			</div>
+			<br />
+			<p:messages />
+		</h:form>
+
+	</div>
+</h:body>
+</html>

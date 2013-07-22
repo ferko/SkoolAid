@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<f:event listener="#{CreateQuestion.startConversation}"
+				type="preRenderView" />
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Quiz Result</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<div>
+			<h:dataTable value="#{Quiz.answers}" var="answer">
+				<h:column>
+					<h:outputText value="#[answer.option}" />
+				</h:column>
+			</h:dataTable>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="menu">
+		<div>
+			<h1 class="section_title"
+				style="position: relative; left: 20px; top: -10px;">Quiz</h1>
+			<p:separator id="customSeparator"
+				style="color:#FFFFFF; height:5px;background-color: #FFFFFF;" />
+		</div>
+	</ui:define>
+	<ui:define name="main_content">
+		<h:form>
+			<h:outputText
+				value="Your score is : #{Quiz.score} / #{Quiz.answers.size() + Quiz.trueFalse.size()}"
+				rendered="#{Quiz.submitted}" styleClass="correct"
+				style="font-size: 35px;" />
+
+			<ui:repeat var="question" value="#{Quiz.questions}"
+				varStatus="status">
+				<div class="question_box">
+					<br />
+					<h:outputText value="#{question.question}" styleClass="fields" />
+					<hr />
+					<ui:param name="index" value="#{status.index}" />
+					<p:selectOneRadio id="radioGroup" value="#{Quiz.answers[index]}"
+						layout="custom" converter="#{OptionConverter}">
+						<f:selectItem itemValue="#{question.options[0]}" />
+						<f:selectItem itemValue="#{question.options[1]}" />
+						<f:selectItem itemValue="#{question.options[2]}" />
+						<f:selectItem itemValue="#{question.options[3]}" />
+					</p:selectOneRadio>
+
+					<div>
+						<p:radioButton for="radioGroup" itemIndex="0"
+							disabled="#{Quiz.submitted}" />
+						<ui:param name="opt1" value="#{question.options[0]}" />
+						<h:outputText value="#{question.options[0].option}"
+							styleClass="#{Quiz.getStyleClass(opt1)}" />
+						<p:radioButton for="radioGroup" itemIndex="1"
+							disabled="#{Quiz.submitted}" />
+						<ui:param name="opt2" value="#{question.options[1]}" />
+						<h:outputText value="#{question.options[1].option}"
+							styleClass="#{Quiz.getStyleClass(opt2)}" />
+						<p:radioButton for="radioGroup" itemIndex="2"
+							disabled="#{Quiz.submitted}" />
+						<ui:param name="opt3" value="#{question.options[2]}" />
+						<h:outputText value="#{question.options[2].option}"
+							styleClass="#{Quiz.getStyleClass(opt3)}" />
+						<p:radioButton for="radioGroup" itemIndex="3"
+							disabled="#{Quiz.submitted}" />
+						<ui:param name="opt4" value="#{question.options[3]}" />
+						<h:outputText value="#{question.options[3].option}"
+							styleClass="#{Quiz.getStyleClass(opt4)}" />
+					</div>
+				</div>
+			</ui:repeat>
+			<ui:repeat var="trueFalse" value="#{Quiz.trueFalse}"
+				varStatus="trueIndex">
+				<div class="question_box">
+					<br />
+					<h:outputText value="#{trueFalse.question}" styleClass="fields" />
+					<hr />
+					<ui:param name="index" value="#{trueIndex.index}" />
+					<div>
+						<h:outputText value="#{Quiz.trueFalseAnswers[index]}"
+							styleClass="#{Quiz.getTrueFalseStyleClass(index)}"
+							rendered="#{Quiz.submitted}" />
+						<p:selectBooleanButton value="#{Quiz.trueFalseAnswers[index]}"
+							converter="#{BoolConverter}" onLabel="True"
+							styleClass="loginButton" offLabel="False" onIcon="ui-icon-check"
+							offIcon="ui-icon-close" rendered="#{!Quiz.submitted}"
+							disabled="#{Quiz.submitted}" />
+
+					</div>
+				</div>
+			</ui:repeat>
+			<ui:repeat var="shortAnswer" value="#{Quiz.shortAnswer}"
+				varStatus="shortIndex">
+				<div class="question_box">
+					<br />
+					<h:outputText value="#{shortAnswer.question}" styleClass="fields" />
+					<hr />
+					<ui:param name="index" value="#{shortIndex.index}" />
+					<div>
+
+						<h:inputTextarea value="#{Quiz.shortAnswerAnswers[index]}"
+							styleClass="question_area" disabled="#{Quiz.submitted}"
+							validatorMessage="Max size is 400 characters">
+							<f:validateLength maximum="400" />
+				 		</h:inputTextarea>
+							<h:inputTextarea value="#{shortAnswer.answer}"
+								styleClass="question_area" disabled="true"
+								rendered="#{Quiz.submitted}" style="background-color: #33ed1f;" />
+					</div>
+				</div>
+			</ui:repeat>
+			<br />
+			<h:commandButton action="#{Quiz.getResult}" value="Submit"
+				styleClass="loginButton" rendered="#{!Quiz.submitted}">
+				<p:ajax process="@form" update="@form" />
+			</h:commandButton>
+			<h:button outcome="quiz" value="New Quiz" styleClass="loginButton"
+				rendered="#{Quiz.submitted}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

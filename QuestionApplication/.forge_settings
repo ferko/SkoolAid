@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<rootpath>"/rest"</rootpath>
+<rest>
+<applicationclass>
+<package>www.jointeams.com.QApp.rest</package>
+<name>C:\/Users/ferko1177gmail.com/workspace/QuestionApplication/src/main/java/www/jointeams/com/QApp/rest/JaxRsActivator.java</name>
+</applicationclass>
+</rest>
+</configuration>
